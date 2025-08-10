@@ -155,7 +155,7 @@
                     <div class="text-sm text-gray-400">Contacto Físico</div>
                 </div>
                 <div class="experience-card p-6 rounded-lg">
-                    <div class="stats-counter text-3xl font-bold mb-2">12:00 a 10:00 PM</div>
+                    <div class="stats-counter text-3xl font-bold mb-2">12:00 PM a 11:00 PM</div>
                     <div class="text-sm text-gray-400">Disponible</div>
                 </div>
                 <div class="experience-card p-6 rounded-lg">
@@ -458,12 +458,18 @@
 
         // Interactive stats counter animation
         function animateCounter(element, target) {
+            // Si target es la etiqueta especial 'hoursRange', ponemos el texto fijo de horario
+            if (target === 'hoursRange') {
+                element.textContent = '12:00 PM a 11:00 PM';
+                return;
+            }
+
             let current = 0;
             const increment = target / 100;
             const timer = setInterval(() => {
                 current += increment;
                 if (current >= target) {
-                    element.textContent = target === Infinity ? '∞' : Math.ceil(target) + (target === 100 ? '%' : target === 24 ? '/7' : '');
+                    element.textContent = target === Infinity ? '∞' : Math.ceil(target) + (target === 100 ? '%' : '');
                     clearInterval(timer);
                 } else {
                     element.textContent = Math.ceil(current) + (target === 100 ? '%' : '');
@@ -477,7 +483,7 @@
                 if (entry.isIntersecting) {
                     const counters = entry.target.querySelectorAll('.stats-counter');
                     counters.forEach((counter, index) => {
-                        const targets = [100, 0, 24, Infinity];
+                        const targets = [100, 0, 'hoursRange', Infinity];
                         if (targets[index] !== undefined) {
                             animateCounter(counter, targets[index]);
                         }
